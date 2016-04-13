@@ -16,6 +16,9 @@
 
 package com.android.uiautomator.tree;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -137,4 +140,19 @@ public class UiNode extends BasicTreeNode {
         }
     }
 
+    public String getActivity() throws IOException{
+    	String tempRes = "";
+    	String adbStr = "adb shell dumpsys activity | grep mFocusedActivity";
+    	Process pro = Runtime.getRuntime().exec(adbStr);
+    	BufferedReader in = new BufferedReader(new InputStreamReader(pro.getInputStream()));
+    	String line = null;
+    	while ((line = in.readLine()) != null) {
+    		tempRes += line;
+		}
+    	in.close();    	
+    	System.out.println(tempRes);
+    	String[] res = tempRes.split(" ");
+
+		return res[res.length-2];
+    }
 }

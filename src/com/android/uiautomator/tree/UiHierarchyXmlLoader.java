@@ -20,26 +20,51 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 public class UiHierarchyXmlLoader {
-
     private BasicTreeNode mRootNode;
 
     public UiHierarchyXmlLoader() {
     }
 
     /**
+     * 获取activity属性
+     * @return
+     * @throws IOException
+     */
+    private String getActivity() throws IOException {
+    	String tempRes = "";
+    	String adbStr = "adb shell dumpsys activity | grep mFocusedActivity";
+    	Process pro = Runtime.getRuntime().exec(adbStr);
+    	BufferedReader in = new BufferedReader(new InputStreamReader(pro.getInputStream()));
+    	String line = null;
+    	while ((line = in.readLine()) != null) {
+    		tempRes += line;
+		}
+    	in.close();    	
+    	System.out.println(tempRes);
+    	String[] res = tempRes.split(" ");
+
+		return res[res.length-2];
+	}
+
+	/**
      * Uses a SAX parser to process XML dump
      * @param xmlPath
      * @return
+     * @throws IOException 
      */
-    public BasicTreeNode parseXml(String xmlPath) {
+    public BasicTreeNode parseXml(String xmlPath) throws IOException {
+    	String mActivity = getActivity();
+
         mRootNode = null;
         // standard boilerplate to get a SAX parser
         SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -77,7 +102,8 @@ public class UiHierarchyXmlLoader {
                     }
                     
                     tmpNode.addAtrribute("xpath", tmpNode.getXpath());
-                    
+                    tmpNode.addAtrribute("Activity", mActivity);
+
                     mWorkingNode = tmpNode;
                     nodeCreated = true;
                 }
