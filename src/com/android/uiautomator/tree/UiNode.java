@@ -140,7 +140,7 @@ public class UiNode extends BasicTreeNode {
         }
     }
 
-    public String getActivity() throws IOException{
+/*    public String getActivity() throws IOException{
     	String tempRes = "";
     	String adbStr = "adb shell dumpsys activity | grep mFocusedActivity";
     	Process pro = Runtime.getRuntime().exec(adbStr);
@@ -154,5 +154,5 @@ public class UiNode extends BasicTreeNode {
     	String[] res = tempRes.split(" ");
 
 		return res[res.length-2];
-    }
+    }*/
 }

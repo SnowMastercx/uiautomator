@@ -63,6 +63,7 @@ public class UiHierarchyXmlLoader {
      * @throws IOException 
      */
     public BasicTreeNode parseXml(String xmlPath) throws IOException {
+    	//获取Activity
     	String mActivity = getActivity();
 
         mRootNode = null;
