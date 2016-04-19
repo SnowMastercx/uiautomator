@@ -20,9 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.android.uiautomator.UiAutomatorModel;
-import com.android.uiautomator.UiAutomatorViewer;
-
 public class BasicTreeNode {
 
     private static final BasicTreeNode[] CHILDREN_TEMPLATE = new BasicTreeNode[] {};
